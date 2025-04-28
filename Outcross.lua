@@ -11,9 +11,14 @@
 
 ---------------
 -- НАСТРОЙКИ
+-- Версия
+local ver = '2.9o'
 
 -- режим карты (1 - для игры одним героем; 2 - для классической игры)
 local gmode = 2
+
+-- специальный режим карты (1 - ванилла, 2 - 2 доп.зоны + столица 3 игрока, 3 - 2 доп.зоны)
+local smode = 1
 
 -- коэффициент сложности (0.6-0.8 легко; 0.8-1 средне; >1 сложно) [страндарт = 0.92]
 local kef = 0.92
@@ -24,16 +29,13 @@ local kr = 1.05
 ----------------
 -- КОД ШАБЛОНА
 
--- переменные для ист-ков т1-т2 (для каждой расы)
-	local tbla = {1,0}
-	local tblb = {1,0}
--- переменные для ист-ков зона тренера (для каждой расы)
-	local tbl = {1,0,0,0}	
+-- переменные для ист-ков (для каждой расы)
+	local tbl = {1,0}
 
 ------
 
 -- 600x7 [пермо для ГО] "Честный труд" (сапоги) / Зелье завоевателя (желы) / Зелье оруженосца (знамя) / Зелье постижения (релики) / Зелье слова (свитки) / Каталог магических сфер / Эликсир учености (арты)
-tp2p = {'g001ig0528', 'g001ig0524', 'g001ig0526', 'g001ig0527', 'g001ig0531', 'g001ig0529', 'g001ig0525'} 
+tp2p = {'g001ig0528', 'g001ig0524', 'g001ig0526', 'g001ig0527', 'g001ig0531', 'g001ig0529', 'g001ig0525'}
 
 -- пермо для лавки т0-т1 / города т1
 function gtp0p()
@@ -84,15 +86,15 @@ end
 
 ------
 
-	-- Заклы баш_т2 т1статы*5шт : быстрота +7и, Menta minoris -5у.т., слабость -5уи, стая -10у, Стойкость рощи +15оз		
-	local tblmg2t1 = {'g000ss0002','g000ss0044','g000ss0064','g000ss0101','g000ss0102'} 
-	-- Заклы баш_т2 т1двойные_бафы*4шт : Ледяной щит / Стальные кости +7б, сила витара / сила +10у		
-	local tblmg2t1b = {'g000ss0021','g000ss0181','g000ss0023','g000ss0003'} 
-	-- Заклы баш_т2 т1двойные_дебафы*6шт : tormentio / Ржавчина -10б, Порченная руна / неудача -10т, Смятение / Устрашающий гимн -10и		
-	local tblmg2t1d = {'g000ss0045','g000ss0065','g000ss0134','g000ss0178','g000ss0106','g000ss0179'} 
+	-- Заклы баш_т2 т1статы*5шт : быстрота +7и, Menta minoris -5у.т., слабость -5уи, стая -10у, Стойкость рощи +15оз
+	local tblmg2t1 = {'g000ss0002','g000ss0044','g000ss0064','g000ss0101','g000ss0102'}
+	-- Заклы баш_т2 т1двойные_бафы*4шт : Ледяной щит / Стальные кости +7б, сила витара / сила +10у
+	local tblmg2t1b = {'g000ss0021','g000ss0181','g000ss0023','g000ss0003'}
+	-- Заклы баш_т2 т1двойные_дебафы*6шт : tormentio / Ржавчина -10б, Порченная руна / неудача -10т, Смятение / Устрашающий гимн -10и
+	local tblmg2t1d = {'g000ss0045','g000ss0065','g000ss0134','g000ss0178','g000ss0106','g000ss0179'}
 
 	-- Заклы баш_т2 т12*6шт : Дикие саженцы / Исцеление / Ритуал исцеления / Заступничество / Отсрочка неизбежного / Соколиная зоркость
-	local tblmg2t2 = {'g000ss0107','g000ss0007','g000ss0029','g000ss0197','g000ss0124','g000ss0126'} 
+	local tblmg2t2 = {'g000ss0107','g000ss0007','g000ss0029','g000ss0197','g000ss0124','g000ss0126'}
 
 --Башня магии в зоне 2
 function zoneMageResp()
@@ -102,33 +104,33 @@ function zoneMageResp()
 	mix(tblmg2t2)
 	return {
 		{
-			spells = { 	tblmg2t1[1], tblmg2t1[2], 
-						tblmg2t1b[1], 
+			spells = { 	tblmg2t1[1], tblmg2t1[2],
+						tblmg2t1b[1],
 						tblmg2t1d[1],
-						tblmg2t2[1], tblmg2t2[2], tblmg2t2[3], 
-			},			
+						tblmg2t2[1], tblmg2t2[2], tblmg2t2[3],
+			},
 			guard = gmm({}, guard2m())
 		}
 	}
 end
 
-	-- Заклы баш_т3 
+	-- Заклы баш_т3
 	-- Заклы баш_т3 т2статы*8шт : сокрушение -15броня, прокл.эмира -15урон / Cursa demoneus -15урон, terebrare corde -10точ.урон, Chronos -15ини, Спешащее время +10ини5урон, могущество +15урон, Песнь слез -10точность, Заколдованное оружие +10точн.вард.осл
-	local tblmg3t2 = {'g000ss0183','g000ss0184','g000ss0185','g000ss0050','g000ss0186','g000ss0187','g000ss0133','g000ss0034'} 
+	local tblmg3t2 = {'g000ss0183','g000ss0184','g000ss0185','g000ss0050','g000ss0186','g000ss0187','g000ss0133','g000ss0034'}
 
 	-- т3*7шт : Призыв II: Валькирия / Призыв III: Энт Большой, Terra oblivionem -25опыт, Туман Смерти, Божественная мудрость (+15 опыт), Затопление, Излечение (+60 хил), Искусный торговец -20% скидка
 	local tblmg3t3 = {'g000ss0031','g000ss0108','g000ss0199','g000ss0074','g000ss0175','g000ss0144','g000ss0110','g000ss0085'}
-	
+
 	-- т45*7шт : Неподкупность, Merum facies -окам полим, Слабость плоти -оружие, Слабость разума -разум, Песнь Вотана +100 хил, Призыв IV: Танатос, Сумерки -закрывает карту
 	local tblmg3t4 = {'g000ss0039','g000ss0127','g000ss0202','g000ss0203','g000ss0040','g000ss0078','g000ss0095'}
 
 	-- минус_вард+_доп*5шт : Dominatum ignis -вард огонь, Небесный молот -вард воздух, Пробирающий холод -вард вода, Хворь -вард земля, Забвение -свитки сферы талики
-	local tblmg3tw = {'g000ss0206','g000ss0209','g000ss0207','g000ss0208','g000ss0166'} 
-	
+	local tblmg3tw = {'g000ss0206','g000ss0209','g000ss0207','g000ss0208','g000ss0166'}
+
 	-- ударка-40взоне*4шт : Potentia Ignis, Духи льда, Лавина, Смерч Смерти, Цепь молний
-	local tblmg3tu = {'g000ss0090','g000ss0086','g000ss0112','g000ss0093','g000ss0081'} 
-	
-	-- 
+	local tblmg3tu = {'g000ss0090','g000ss0086','g000ss0112','g000ss0093','g000ss0081'}
+
+	--
 
 --Башня магии в зоне 3
 function zoneMageZone34()
@@ -155,15 +157,17 @@ end
 function zoneMageTrainer()
 	return {
 		{
-			spells = { 	
-						rnd('g000ss0043','g000ss0024','g000ss0097','g000ss0004','g000ss0062'), -- Ignis mare / Буран / Кустарник / Молния / Мор	
+			spells = {
+						rnd('g000ss0043','g000ss0024','g000ss0097','g000ss0004','g000ss0062'), -- Ignis mare / Буран / Кустарник / Молния / Мор
 						rnd('g000ss0001','g000ss0010','g000ss0180','g000ss0182'), -- Защита от магии Воздуха / Защита от магии Земли / Ardenti aqua / Спокойствие пламени
 						rnd('g000ss0119','g000ss0022'), -- Водосточный колодец / Хождение по лесу
 						rnd('g000ss0147','g000ss0020'), -- Infernus (-крит,-РБ,-вампирик) / Приказ сира Аллемона
-						rnd(rnd('g000ss0192','g000ss0191'),'g000ss0177'), -- Песнь Мимира | Проведение Всевышнего / Откровение 
+						rnd(rnd('g000ss0192','g000ss0191'),'g000ss0177'), -- Песнь Мимира | Проведение Всевышнего / Откровение
 						rnd('g000ss0152','g000ss0176'), -- Подкуп / Лисья хитрость
 						rnd('g000ss0030','g000ss0068','g000ss0041','g000ss0047'), -- Взгляд Сивиллы / Тень / Incantare Hellhound / Incantare Beliarh Illudere
-			},			
+						'g000ss0047',
+						'g000ss0047'
+			},
 			guard = gmm({}, PredSkin(80, 87, 100, 100)),
 		}
 	}
@@ -180,7 +184,7 @@ function zoneTownsResp0()
 	{
 		tier = tierTowerResp0,
 		stack = {
-		subraceTypes = rsub(),		
+		subraceTypes = rsub(),
 			value = { min = gmm(250,300)*kef, max = gmm(263,315)*kef },
 			loot = {
 				itemTypes = { Item.Weapon, Item.Armor, Item.TravelItem }, -- 3+2+7
@@ -190,10 +194,10 @@ function zoneTownsResp0()
 					{ id = 'g000ig0001', min = 1, max = 1 }, --рес
 					{ id = 'g000ig0006', min = gmm(1,2), max = gmm(1,2) }, -- хил100
 					orr({ id = 'g001ig0180', min = 2, max = 2 }, { id = 'g000ig0005', min = 1, max = 1 }), -- хил25*2/хил 50
-					gmm({ id = rnd('g000ig7001',rmss()), min = 1, max = 1 }, { id = rnd('g000ig7002',rms()), min = 1, max = 1 }), -- кольцо50 | м.шар / кольцо100 | шар	
+					gmm({ id = rnd('g000ig7001',rmss()), min = 1, max = 1 }, { id = rnd('g000ig7002',rms()), min = 1, max = 1 }), -- кольцо50 | м.шар / кольцо100 | шар
 					orr({ id = 'g000ig0021', min = 1, max = 1 }, { id = 'g000ig0024', min = 1, max = 1 }), --возд/огня
-					{ id = rnd(b15(),'g000ig0008'), min = 1, max = 1 }, -- случ. банка15 / точность15 
-					
+					{ id = rnd(b15(),'g000ig0008'), min = 1, max = 1 }, -- случ. банка15 / точность15
+
 					-- банка на талики / реген / точность
 					{ id = rndy(tp0p), min = 1, max = 1 },
 				}
@@ -225,8 +229,8 @@ function zoneTownsResp(playerRace)
 
 					{ id = rnd(pw4e(),ExtraMana(playerRace)), min = 1, max = 1 }, -- Случ пермо-вард-эффект / шар доп маны
 
-					-- Борода Имира (Реликвия) / Книга воды / Книга воздуха / Книга земли / Книга Огня / Книга тайного знания / 
-					-- Медицинский трактат / Оковы долга (Реликвия) / Перчатки дуэлянта (Реликвия) / Череп Танатоса (Реликвия) / 
+					-- Борода Имира (Реликвия) / Книга воды / Книга воздуха / Книга земли / Книга Огня / Книга тайного знания /
+					-- Медицинский трактат / Оковы долга (Реликвия) / Перчатки дуэлянта (Реликвия) / Череп Танатоса (Реликвия) /
 					-- Сапоги ассасина / Тяжелые сапоги / Счастливая кость (Артефакт) / Святая чаша (Артефакт) / Книга постижения
 					{id = rnd('g001ig0421','g000ig4002','g000ig4001','g000ig4003','g000ig4004','g000ig4006','g000ig4007','g001ig0610','g001ig0099','g000ig3020','g001ig0111','g001ig0114','g001ig0182','g000ig2002','g001ig0605'), min = 1, max = 1},
 				}
@@ -259,10 +263,10 @@ function zoneTownsZone34(playerRace)
 					{ id = rnd('g000ig9020','g000ig9016','g001ig0469','g001ig0489','g001ig0478'), min = 1, max = 1 }, -- Сфера Энергии +25все / Сфера Великого исцеления +80-все / Сфера Пожара 55дот / Сфера Угнетения 100урон / Сфера Переохлаждения 40дот
 					orr({ id = 'g001ig0128', min = 1, max = 1 },{ id = 'g001ig0125', min = 1, max = 1 }), -- вард оружия/разума
 					{ id = rnd('g000ig0014','g002ig0007','g000ig0008','g000ig0011','g002ig0005',e2()), min = 1, max = 1 }, --защита15 / Зелье маг.уст. / точность15 / ини15 / Зелье набл.-15воры / эликсир200
-					
+
 					{ id = rnd(pw4d(),ExtraHomeMana(playerRace)), min = 1, max = 1 }, -- пермо-вард-дот / шар родной манны
 				}
-				
+
 			}
 		}
 	},
@@ -282,11 +286,11 @@ function zoneTownsZone5()
 					{ id = 'g000ig0001', min = 2, max = 2 },
 					{ id = 'g000ig0006', min = gmm(2,3), max = gmm(2,3) }, -- хил100
 					gmm({ id = 'g000ig7004', min = 1, max = 1 },{ id = 'g000ig7005', min = 1, max = 1 }), -- золотое кольцо200/рубин250
-					orr(orr({ id = 'g000ig1004', min = 1, max = 1}, { id = 'g000ig1002', min = 1, max = 1}), orr({ id = 'g000ig1008', min = 1, max = 1}, { id = 'g000ig1006', min = 1, max = 1})), -- Знамя битвы, Знамя неуязвимости, Знамя энергии, Знамя скорости		
+					orr(orr({ id = 'g000ig1004', min = 1, max = 1}, { id = 'g000ig1002', min = 1, max = 1}), orr({ id = 'g000ig1008', min = 1, max = 1}, { id = 'g000ig1006', min = 1, max = 1})), -- Знамя битвы, Знамя неуязвимости, Знамя энергии, Знамя скорости
 					{ id = spherex(), min = 1, max = 1 }, -- сфера икс
 					{ id = e4(), min = 1, max = 1 }, --эл400
 					{ id = rnd('g000ig0015','g000ig0003','g000ig0012','g002ig0006'), min = 1, max = 1 }, --урон30/защита30/ини30/Зелье бдительности -30воры
-					
+
 					{ id = rnd('g000ig0018',pw6(),rms()), min = 1, max = 1 }, -- хил200/пермовард/случ.шар манны
 				}
 			}
@@ -296,6 +300,10 @@ function zoneTownsZone5()
 end
 
 ----------------------
+
+-- Для лавки т0 и т1
+--сферы 200x6: Сфера Брони I +15брони-1 200, Сфера Вампиризма I +20вамп-1 200, Сфера Восстановления 30хил-аое 200, Сфера Охотника 40урона-1 200, Сфера очищения 200, Сфера Разрушения доспеха I -15брони-1 200, Сфера Урона I +20урон-1 200
+local orb200RespZ = {'g001ig0133','g001ig0446','g000ig9017','g001ig0471','g001ig0157','g001ig0464','g001ig0450'}
 
 -- Лавка т0 на Респе
 function zoneMerchRespZ0() -- свиток т1
@@ -312,6 +320,7 @@ local orbRespZ0 = {'g001ig0458','g000ig9031','g000ig9022','g001ig0302','g001ig01
 mix(artRespZ0)
 mix(relRespZ0)
 mix(orbRespZ0)
+mix(orb200RespZ)
 
 return {
 	{
@@ -335,7 +344,7 @@ return {
 				{ id = 'g000ig0022', min = 1, max = 2 }, -- вард
 				{ id = 'g000ig0023', min = 1, max = 2 }, -- вард
 				{ id = 'g000ig0024', min = 1, max = 2 }, -- вард
-				
+
 				{ id = d15(), min = 1, max = 1}, -- случ. дотвард
 
 				-- Зелье наблюдательности / Зелье магической устойчивости x 2
@@ -351,7 +360,7 @@ return {
 --				{ id = rnd(rnd('g001ig0529','g001ig0531'),'g001ig0528','g001ig0525'), min = 1, max = 1 }, --   Каталог магических сфер | Зелье слова (свитки) / Честный труд (сапоги) / Эликсир учености (артефакты)
 
 				--сапоги
-				{ id = rnd(rnd('g001ig0105','g001ig0107','g001ig0108','g001ig0106'),'g001ig0113','g001ig0110'), min = 1, max = 1 }, -- Литейные сапоги (огонь) / Сапоги ветров (воздух) / Гномьи сапоги (вода) / Сапоги каменщика (земли) // сапоги укрепл / лёгкие
+				{ id = rnd('g001ig0105','g001ig0107','g001ig0108','g001ig0106'), min = 1, max = 1 }, -- Литейные сапоги (огонь) / Сапоги ветров (воздух) / Гномьи сапоги (вода) / Сапоги каменщика (земли)
 
 				--арты
 				{ id = artRespZ0[1], min = 1, max = 1 },
@@ -361,11 +370,12 @@ return {
 				{ id = relRespZ0[1], min = 1, max = 1 },
 				{ id = relRespZ0[2], min = 1, max = 1 }, 
 
-				--сферы
+				--сферы 100
 				{ id = orbRespZ0[1], min = 1, max = 1 }, 
 				{ id = orbRespZ0[2], min = 1, max = 1 },
-				{ id = orbRespZ0[3], min = 1, max = 1 },
-				{ id = orbRespZ0[4], min = 1, max = 1 },
+				--сферы 200-1,2
+				{ id = orb200RespZ[1], min = 1, max = 1 },
+				{ id = orb200RespZ[2], min = 1, max = 1 },
 				
 				--посох
 				orr(orr({ id = 'g001ig0383', min = 1, max = 1 }, { id = 'g001ig0387', min = 1, max = 1 }), orr({ id = 'g000ig6001', min = 1, max = 1 }, { id = 'g000ig6003', min = 1, max = 1 })), -- Посох первых побегов (малый энт) / Посох следопыта (хождение по лесу) / Посох грома (15 дамаг) /  Посох святости (30 хила)
@@ -399,16 +409,12 @@ local relRespZ = {'g001ig0497','g000ig4006','g001ig0421','g001ig0428','g001ig009
 --знамёна 6x400+500: защиты, выносл, силы, сражения
 local flagRespZ = {'g000ig1001','g001ig0051','g000ig1007','g000ig1003'}
 
---сферы 200x6: Сфера Брони I +15брони-1 200, Сфера Вампиризма I +20вамп-1 200, Сфера Восстановления 30хил-аое 200, Сфера Охотника 40урона-1 200, Сфера Разрушения доспеха I -15брони-1 200, Сфера Урона I +20урон-1 200		
-local orb200RespZ = {'g001ig0133','g001ig0446','g000ig9017','g001ig0471','g001ig0464','g001ig0450'}
-
 --сферы 400x4: Сфера Молнии 80 400, Сфера Пламени 80урон 400, Сфера Святой земли 60хил-ряду 400, Сфера Вампиризма II 40-1 400
 local orb400RespZ = {'g001ig0300','g001ig0187','g001ig0453','g001ig0176'}
 
 mix(artRespZ)
 mix(relRespZ)
 mix(flagRespZ)
-mix(orb200RespZ)
 mix(orb400RespZ)
 
 return {
@@ -460,15 +466,15 @@ return {
 				{ id = flagRespZ[1], min = 1, max = 1 },
 				{ id = flagRespZ[2], min = 1, max = 1 }, 
 
-				--сферы200
-				{ id = orb200RespZ[1], min = 1, max = 1 }, 
-				{ id = orb200RespZ[2], min = 1, max = 1 },
+				--сферы200-3,4
+				{ id = orb200RespZ[3], min = 1, max = 1 },
+				{ id = orb200RespZ[4], min = 1, max = 1 },
 				--сферы400
 				{ id = orb400RespZ[1], min = 1, max = 1 },
 				{ id = orb400RespZ[2], min = 1, max = 1 },
 
 				--сапоги
-				{ id = rnd('g001ig0114','g001ig0111'), min = 1, max = 1 }, -- Тяжелые сапоги / Сапоги ассасина
+				{ id = rnd('g001ig0113','g001ig0110'), min = 1, max = 1 }, -- сапоги укрепл / лёгкие
 
 				--посох
 				orr(orr({ id = 'g001ig0394', min = 1, max = 1 }, { id = 'g000ig6012', min = 1, max = 1 }), orr({ id = 'g001ig0395', min = 1, max = 1 }, { id = 'g001ig0399', min = 1, max = 1 })), -- Посох северных стражей+10брони / Посох скорости+10ини / Посох наместника Махаля+10брони / Посох раздора-10ини
@@ -589,7 +595,7 @@ return {
 				{ id = orbResp1[4], min = 1, max = 1 },
 
 				--сапоги
-				{ id = rnd('g000ig8003',rnd('g001ig0516','g001ig0523')), min = 1, max = 1 }, -- Сапоги скорости / Зелье омоложения разума (-10 опыт) | Зелье воеводы (опыт 10)
+				{ id = rnd('g000ig8003','g001ig0111',rnd('g001ig0516','g001ig0523')), min = 1, max = 1 }, -- Сапоги скорости / Сапоги ассасина / Зелье омоложения разума (-10 опыт) | Зелье воеводы (опыт 10)
 
 				--посох
 				orr(orr({ id = 'g001ig0404', min = 1, max = 1 }, { id = 'g001ig0401', min = 1, max = 1 }), { id = 'g001ig0398', min = 1, max = 1 }), -- Посох Ниграэля-15урона / Посох проклятой метки-15урона | Посох скальда+15ини
@@ -669,7 +675,7 @@ return {
 				{ id = orbResp2[4], min = 1, max = 1 },
 				
 				--сапоги
-				{ id = rnd('g000ig1010','g001ig0018'), min = 1, max = 1 }, -- Эльфийские сапоги / Великая аура тролля (+20реген)
+				{ id = rnd('g000ig1010','g001ig0114','g001ig0018'), min = 1, max = 1 }, -- Эльфийские сапоги / Тяжелые сапоги / Великая аура тролля (+20реген)
 
 				--посох
 				orr({ id = 'g001ig0392', min = 1, max = 1 }, orr({ id = 'g000ig6019', min = 1, max = 1 }, { id = 'g001ig0403', min = 1, max = 1 })), -- Посох знаний Фрегги+40хил | Посох Листвы+лес / Посох неизбежной кары +10 урона и точности
@@ -948,8 +954,6 @@ return {
 end
 
 -- Руины зона 1
---local valueRuinRespZ = { min = gmm(230,260)*kef, max = gmm(240,274)*kef }
---local goldRuinRespZ = { min = 250, max = 275 } 
 
 function zoneRuinRespZ()
 return {
@@ -969,9 +973,6 @@ return {
 	{
 		gold = { min = gmm(250,400), max = gmm(275,450)},
 		loot = {
---			itemTypes = { Item.Banner, Item.Talisman, Item.TravelItem }, --6(-1)+3+2
---			value = { min = 400, max = 500 },
---			itemValue = { min = 400, max = 500 }
 			items = {
 				-- Знамя быстроты / Знамя выносливости / Знамя защиты / Знамя силы / Знамя сражения / Сапоги ассасина / Тяжелые сапоги / Знамя мастера 'g001ig0587' исключил-баг
 				{id = rnd('g000ig1005','g001ig0051','g000ig1001','g000ig1007','g000ig1003','g001ig0111','g001ig0114'), min = 1, max = 1},
@@ -988,17 +989,12 @@ end
 
 
 -- Руины зона 2
---local valueRuinResp = { min = gmm(400,450)*kef, max = gmm(420,473)*kef }
---local goldRuinResp = { min = 300, max = 330 } 
 
 function zoneRuinResp()
 return {
 	{
 		gold = { min = gmm(300,500), max = gmm(330,550)},
 		loot = {
---			itemTypes = { Item.Jewel, Item.Weapon }, --6+3
---			value = { min = 550, max = 700 },
---			itemValue = { min = 550, max = 700 },
 			items = {
 				-- Кровавый покров (Реликвия) / Латы Спасителя (Реликвия) / Лютня Очарования (Реликвия) / Нагрудник Стража (Реликвия) / Промасленная кольчуга (Реликвия) / Дьявольская чаша (Артефакт) / Кинжал Вампиризма (Артефакт) / Кольцо темных искуств (Артефакт) / Оковы долга (Реликвия)
 				{id = rnd('g001ig0422','g001ig0423','g000ig3022','g001ig0427','g002ig0002','g000ig3002','g000ig3017','g001ig0487','g001ig0610'), min = 1, max = 1},
@@ -1014,9 +1010,6 @@ return {
 	{
 		gold = { min = gmm(300,500), max = gmm(330,550)},
 		loot = {
---			itemTypes = { Item.Armor, Item.TravelItem }, --5+2
---			value = { min = 550, max = 700 },
---			itemValue = { min = 550, max = 700 },
 			items = {
 				-- Камень врат (Артефакт) / Рог возмездия (Артефакт) / Рог непреклонности (Артефакт) / Руна благоволения Тиу (Артефакт) / Щит телохранителя (Артефакт) / Сапоги скорости / Эльфийские сапоги
 				{id = rnd('g001ig0582','g001ig0558','g001ig0557','g001ig0559','g001ig0594','g000ig8003','g000ig1010'), min = 1, max = 1},
@@ -1031,17 +1024,12 @@ return {
 end
 
 -- Руины зона 3
---local valueRuinZone = { min = 800*kef, max = 840*kef }
---local goldRuinZone = { min = 350, max = 385 }
 
 function zoneRuinZone34()
 return {
 	{
 		gold = { min = gmm(350,550), max = gmm(385,600)},
 		loot = {
---				itemTypes = { Item.Jewel, Item.Weapon, Item.Armor }, --8+3+8
---				value = { min = 850, max = 1090 },
---				itemValue = { min = 850, max = 1090 }
 			items = {
 				-- Длани ангела (Реликвия) / Кафтан первооткрывателя (Реликвия) / Роба убийцы (Реликвия) / Тисовый лук (Реликвия) / Шкатулка предсказаний (Реликвия) / Шлем воителя (Реликвия) /
 				-- / Проклятый пепел (Артефакт) / Топор палача (Артефакт) / Клинок Возвышенного (Артефакт) / Кольцо небесной воли (Артефакт) / Перстень песков (Артефакт) / 
@@ -1058,9 +1046,6 @@ return {
 	{
 		gold = { min = gmm(385,600), max = gmm(420,660)},
 		loot = {
---				itemTypes = { Item.Banner }, --22
---				value = { min = 600, max = 750 },
---				itemValue = { min = 600, max = 750 }
 			items = {
 				-- Знамя 600-850: Баннер неудержимых / Знамя битвы / Знамя горна / Знамя городских стражей / Знамя искоренителя ереси / 
 				-- Знамя магии Воды / Знамя магии Воздуха / Знамя магии Земли / Знамя магии Огня / Знамя магии Разума / Знамя магии Смерти 
@@ -1087,9 +1072,6 @@ return {
 	{
 		gold = { min = gmm(420,650), max = gmm(460,710)},
 		loot = {
---				itemTypes = { Item.Weapon, Item.Talisman }, 
---				value = { min = 1150, max = 1500 },
---				itemValue = { min = 1150, max = 1500 }
 			items = {
 				-- Божественный потир (Артефакт) / Грань реальности (Артефакт) / Дьявольская булава (Артефакт) / Клинок Танатоса (Артефакт) / Корни триббога (Артефакт) / Руна кары Тьяцци (Артефакт) / Рунический клинок (Артефакт) / Серп Кровавого Ворона (Артефакт) / Слеза Мортис (Артефакт)
 				{id = rnd('g001ig0174','g001ig0411','g001ig0410','g000ig3019','g001ig0413','g001ig0415','g000ig3004','g002ig0013','g000ig9035'), min = 1, max = 1},
@@ -1104,9 +1086,6 @@ return {
 	{
 		gold = { min = gmm(420,650), max = gmm(460,710)},
 		loot = {
---				itemTypes = { Item.Armor, Item.Jewel }, 
---				value = { min = 1150, max = 1500 },
---				itemValue = { min = 1150, max = 1500 }
 			items = {
 				-- Кинжал жатвы (Артефакт) / Кольцо создателя (Артефакт) / Кровь Владыки (Артефакт) / Монолитный щит (Артефакт) / Рог всеведенья (Артефакт) / Тысяча чешуек (Артефакт) / Щит Мизраэля (Артефакт) / Кираса Кровавого Ворона (Реликвия) / Корона Мьольнира (Реликвия) / Пластинчатый доспех (Реликвия) 
 				{id = rnd('g001ig0604','g001ig0585','g001ig0046','g001ig0592','g000ig2004','g001ig0060','g001ig0590','g002ig0015','g000ig3005','g001ig0116'), min = 1, max = 1},
@@ -1347,12 +1326,12 @@ return {
 
 			
     stock = {
-		{resource = Resource.Gold, value = { min = 1500, max = 1500 }},
-		{resource = Resource.LifeMana, value = { min = 500, max = 500 }},
-		{resource = Resource.DeathMana, value = { min = 500, max = 500 }},
-		{resource = Resource.InfernalMana, value = { min = 500, max = 500 }},
-        {resource = Resource.RunicMana, value = { min = 500, max = 500 }},
-        {resource = Resource.GroveMana, value = { min = 500, max = 500 }}
+		{resource = Resource.Gold, value = { min = 1000, max = 1000 }},
+		{resource = Resource.LifeMana, value = { min = 300, max = 300 }},
+		{resource = Resource.DeathMana, value = { min = 300, max = 300 }},
+		{resource = Resource.InfernalMana, value = { min = 300, max = 300 }},
+        {resource = Resource.RunicMana, value = { min = 300, max = 300 }},
+        {resource = Resource.GroveMana, value = { min = 300, max = 300 }}
     },
 		guard = gmm({}, guard4r()),
 },
@@ -1383,66 +1362,52 @@ function getMinesRespZ(race)
 	return mines
 end
 
--- Источники т1 - голда и ценная и менее ценная (инверс для т2 делаю в своде)
+-- Источники т1: голда, вторая, третья/четвёртая
 function getMinesRespZ2(race)
-
 	if race == Race.Human then return
-	{gold = 1, runicMana = tbla[1], groveMana = tbla[2], deathMana = tblb[1], infernalMana = tblb[2]}
+		{gold = 1, runicMana = 1, groveMana = tbl[1], infernalMana = tbl[2]}
 	elseif race == Race.Dwarf then return
-	{gold = 1, lifeMana = tbla[1], groveMana = tbla[2], deathMana = tblb[1], infernalMana = tblb[2]}
-	elseif race == Race.Undead then return
-	{gold = 1, infernalMana = tbla[1], groveMana = tbla[2], lifeMana = tblb[1], runicMana = tblb[2]}
+		{gold = 1, lifeMana = 1, groveMana = tbl[1], deathMana = tbl[2]}
 	elseif race == Race.Heretic then return
-	{gold = 1, deathMana = tbla[1], groveMana = tbla[2], lifeMana = tblb[1], runicMana = tblb[2]}
+		{gold = 1, deathMana = 1, groveMana = tbl[1], runicMana = tbl[2]}
+	elseif race == Race.Undead then return
+		{gold = 1, infernalMana = 1, runicMana = tbl[1], groveMana = tbl[2]}
 	elseif race == Race.Elf then return
-	{gold = 1, lifeMana = tbla[1], infernalMana = tbla[2], deathMana = tblb[1], runicMana = tblb[2]}
+		{gold = 1, lifeMana = 1, infernalMana = tbl[1], runicMana = tbl[2]}
 	end
 end
 
--- Источники т2 - голда и родная и ценная и менее ценная (инверс для т1 делаю в своде)
+-- Источники т2: голда, родная, вторая, третья/четвёртая (инверс т1), пятая
 function getMinesResp(race)
 	if race == Race.Human then return
-	{gold = 1, lifeMana = 1, runicMana = tbla[2], groveMana = tbla[1], deathMana = tblb[2], infernalMana = tblb[1]}
+		{gold = 1, lifeMana = 1, runicMana = 1, groveMana = tbl[2], infernalMana = tbl[1], deathMana = 1}
 	elseif race == Race.Dwarf then return
-	{gold = 1, runicMana = 1, lifeMana = tbla[2], groveMana = tbla[1], deathMana = tblb[2], infernalMana = tblb[1]}
-	elseif race == Race.Undead then return
-	{gold = 1, deathMana = 1, infernalMana = tbla[2], groveMana = tbla[1], lifeMana = tblb[2], runicMana = tblb[1]}
+		{gold = 1, runicMana = 1, lifeMana = 1, groveMana = tbl[2], deathMana = tbl[1], infernalMana = 1}
 	elseif race == Race.Heretic then return
-	{gold = 1, infernalMana = 1, deathMana = tbla[2], groveMana = tbla[1], lifeMana = tblb[2], runicMana = tblb[1]}
+		{gold = 1, infernalMana = 1, deathMana = 1, groveMana = tbl[2], runicMana = tbl[1], lifeMana = 1}
+	elseif race == Race.Undead then return
+		{gold = 1, deathMana = 1, infernalMana = 1, runicMana = tbl[2], groveMana = tbl[1], lifeMana = 1}
 	elseif race == Race.Elf then return
-	{gold = 1, groveMana = 1, lifeMana = tbla[2], infernalMana = tbla[1], deathMana = tblb[2], runicMana = tblb[1]}
+		{gold = 1, groveMana = 1, lifeMana = 1, infernalMana = tbl[2], runicMana = tbl[1], deathMana = 1}
 	end
 end
 
--- Источники т3 - инывес источников тренера плюс голда (инверс делаю в своде)
-function getMinesZone34(race, race2)
-
-		if race == Race.Human and race2 == Race.Dwarf then return {gold = 1, lifeMana = 1, runicMana = tbl[1], deathMana = tbl[2], infernalMana = tbl[3], groveMana = tbl[4]}
-	elseif race == Race.Human and race2 == Race.Undead then return {gold = 1, lifeMana = 1, deathMana = tbl[1], runicMana = tbl[2], infernalMana = tbl[3], groveMana = tbl[4]}
-	elseif race == Race.Human and race2 == Race.Heretic then return {gold = 1, lifeMana = 1, infernalMana = tbl[1], deathMana = tbl[2], runicMana = tbl[3], groveMana = tbl[4]}
-	elseif race == Race.Human and race2 == Race.Elf then return {gold = 1, lifeMana = 1, groveMana = tbl[1], deathMana = tbl[2], infernalMana = tbl[3], runicMana = tbl[4]}
-	elseif race == Race.Dwarf and race2 == Race.Undead then return {gold = 1, runicMana = 1, deathMana = tbl[1], lifeMana = tbl[2], infernalMana = tbl[3], groveMana = tbl[4]}
-	elseif race == Race.Dwarf and race2 == Race.Heretic then return {gold = 1, runicMana = 1, infernalMana = tbl[1], deathMana = tbl[2], lifeMana = tbl[3], groveMana = tbl[4]}
-	elseif race == Race.Dwarf and race2 == Race.Elf then return {gold = 1, runicMana = 1, groveMana = tbl[1], deathMana = tbl[2], infernalMana = tbl[3], lifeMana = tbl[4]}
-	elseif race == Race.Undead and race2 == Race.Heretic then return {gold = 1, deathMana = 1, infernalMana = tbl[1], lifeMana = tbl[2], runicMana = tbl[3], groveMana = tbl[4]}
-	elseif race == Race.Undead and race2 == Race.Elf then return {gold = 1, deathMana = 1, groveMana = tbl[1], lifeMana = tbl[2], infernalMana = tbl[3], runicMana = tbl[4]}
-	elseif race == Race.Heretic and race2 == Race.Elf then return {gold = 1, infernalMana = 1, groveMana = tbl[1], deathMana = tbl[2], lifeMana = tbl[3], runicMana = tbl[4]}
---
-	elseif race == Race.Dwarf and race2 == Race.Human then return {gold = 1, runicMana = 1, lifeMana = tbl[1], deathMana = tbl[2], infernalMana = tbl[3], groveMana = tbl[4]}
-	elseif race == Race.Undead and race2 == Race.Human then return {gold = 1, deathMana = 1, lifeMana = tbl[1], runicMana = tbl[2], infernalMana = tbl[3], groveMana = tbl[4]}
-	elseif race == Race.Heretic and race2 == Race.Human then return {gold = 1, infernalMana = 1, lifeMana = tbl[1], deathMana = tbl[2], runicMana = tbl[3], groveMana = tbl[4]}
-	elseif race == Race.Elf and race2 == Race.Human then return {gold = 1, groveMana = 1, lifeMana = tbl[1], deathMana = tbl[2], infernalMana = tbl[3], runicMana = tbl[4]}
-	elseif race == Race.Undead and race2 == Race.Dwarf then return {gold = 1, deathMana = 1, runicMana = tbl[1], lifeMana = tbl[2], infernalMana = tbl[3], groveMana = tbl[4]}
-	elseif race == Race.Heretic and race2 == Race.Dwarf then return {gold = 1, infernalMana = 1, runicMana = tbl[1], deathMana = tbl[2], lifeMana = tbl[3], groveMana = tbl[4]}
-	elseif race == Race.Elf and race2 == Race.Dwarf then return {gold = 1, groveMana = 1, runicMana = tbl[1], deathMana = tbl[2], infernalMana = tbl[3], lifeMana = tbl[4]}
-	elseif race == Race.Heretic and race2 == Race.Undead then return {gold = 1, infernalMana = 1, deathMana = tbl[1], lifeMana = tbl[2], runicMana = tbl[3], groveMana = tbl[4]}
-	elseif race == Race.Elf and race2 == Race.Undead then return {gold = 1, groveMana = 1, deathMana = tbl[1], lifeMana = tbl[2], infernalMana = tbl[3], runicMana = tbl[4]}
-	elseif race == Race.Elf and race2 == Race.Heretic then return {gold = 1, groveMana = 1, infernalMana = tbl[1], deathMana = tbl[2], lifeMana = tbl[3], runicMana = tbl[4]}
-	end	
-
+-- Источники т3: голда, родная, третья/четвёртая, пятая
+function getMinesZone34(race)
+	if race == Race.Human then return
+		{gold = 1, lifeMana = 1, groveMana = tbl[1], infernalMana = tbl[2], deathMana = 1}
+	elseif race == Race.Dwarf then return
+		{gold = 1, runicMana = 1, groveMana = tbl[1], deathMana = tbl[2], infernalMana = 1}
+	elseif race == Race.Heretic then return
+		{gold = 1, infernalMana = 1, groveMana = tbl[1], runicMana = tbl[2], lifeMana = 1}
+	elseif race == Race.Undead then return
+		{gold = 1, deathMana = 1, runicMana = tbl[1], groveMana = tbl[2], lifeMana = 1}
+	elseif race == Race.Elf then return
+		{gold = 1, groveMana = 1, infernalMana = tbl[1], runicMana = tbl[2], deathMana = 1}
+	end
 end
 
--- Источники т4 - голда + два родные рас + рандомный
+-- Источники т4: голда, два родные рас, рандомный (не родной рас)
 function getMinesZone5(race, race2)
 	local tblmid = {1,0,0}
 	-- перемешать таблицу
@@ -1483,32 +1448,19 @@ function getMinesZone5(race, race2)
 	end	
 end
  
--- Источники зона-тренер инывес источников т3 минус голда (инверс делаю в своде)
-function getMinesX(race, race2)
-
-		if race == Race.Human and race2 == Race.Dwarf then return {lifeMana = 1, runicMana = tbl[1], deathMana = tbl[2], infernalMana = tbl[3], groveMana = tbl[4]}
-	elseif race == Race.Human and race2 == Race.Undead then return {lifeMana = 1, deathMana = tbl[1], runicMana = tbl[2], infernalMana = tbl[3], groveMana = tbl[4]}
-	elseif race == Race.Human and race2 == Race.Heretic then return {lifeMana = 1, infernalMana = tbl[1], deathMana = tbl[2], runicMana = tbl[3], groveMana = tbl[4]}
-	elseif race == Race.Human and race2 == Race.Elf then return {lifeMana = 1, groveMana = tbl[1], deathMana = tbl[2], infernalMana = tbl[3], runicMana = tbl[4]}
-	elseif race == Race.Dwarf and race2 == Race.Undead then return {runicMana = 1, deathMana = tbl[1], lifeMana = tbl[2], infernalMana = tbl[3], groveMana = tbl[4]}
-	elseif race == Race.Dwarf and race2 == Race.Heretic then return {runicMana = 1, infernalMana = tbl[1], deathMana = tbl[2], lifeMana = tbl[3], groveMana = tbl[4]}
-	elseif race == Race.Dwarf and race2 == Race.Elf then return {runicMana = 1, groveMana = tbl[1], deathMana = tbl[2], infernalMana = tbl[3], lifeMana = tbl[4]}
-	elseif race == Race.Undead and race2 == Race.Heretic then return {deathMana = 1, infernalMana = tbl[1], lifeMana = tbl[2], runicMana = tbl[3], groveMana = tbl[4]}
-	elseif race == Race.Undead and race2 == Race.Elf then return {deathMana = 1, groveMana = tbl[1], lifeMana = tbl[2], infernalMana = tbl[3], runicMana = tbl[4]}
-	elseif race == Race.Heretic and race2 == Race.Elf then return {infernalMana = 1, groveMana = tbl[1], deathMana = tbl[2], lifeMana = tbl[3], runicMana = tbl[4]}
---
-	elseif race == Race.Dwarf and race2 == Race.Human then return {runicMana = 1, lifeMana = tbl[1], deathMana = tbl[2], infernalMana = tbl[3], groveMana = tbl[4]}
-	elseif race == Race.Undead and race2 == Race.Human then return {deathMana = 1, lifeMana = tbl[1], runicMana = tbl[2], infernalMana = tbl[3], groveMana = tbl[4]}
-	elseif race == Race.Heretic and race2 == Race.Human then return {infernalMana = 1, lifeMana = tbl[1], deathMana = tbl[2], runicMana = tbl[3], groveMana = tbl[4]}
-	elseif race == Race.Elf and race2 == Race.Human then return {groveMana = 1, lifeMana = tbl[1], deathMana = tbl[2], infernalMana = tbl[3], runicMana = tbl[4]}
-	elseif race == Race.Undead and race2 == Race.Dwarf then return {deathMana = 1, runicMana = tbl[1], lifeMana = tbl[2], infernalMana = tbl[3], groveMana = tbl[4]}
-	elseif race == Race.Heretic and race2 == Race.Dwarf then return {infernalMana = 1, runicMana = tbl[1], deathMana = tbl[2], lifeMana = tbl[3], groveMana = tbl[4]}
-	elseif race == Race.Elf and race2 == Race.Dwarf then return {groveMana = 1, runicMana = tbl[1], deathMana = tbl[2], infernalMana = tbl[3], lifeMana = tbl[4]}
-	elseif race == Race.Heretic and race2 == Race.Undead then return {infernalMana = 1, deathMana = tbl[1], lifeMana = tbl[2], runicMana = tbl[3], groveMana = tbl[4]}
-	elseif race == Race.Elf and race2 == Race.Undead then return {groveMana = 1, deathMana = tbl[1], lifeMana = tbl[2], infernalMana = tbl[3], runicMana = tbl[4]}
-	elseif race == Race.Elf and race2 == Race.Heretic then return {groveMana = 1, infernalMana = tbl[1], deathMana = tbl[2], lifeMana = tbl[3], runicMana = tbl[4]}
-	end	
-
+-- Источники зона-тренер: родная, третья/четвёртая (инверс т1)
+function getMinesX(race)
+	if race == Race.Human then return
+		{lifeMana = 1, groveMana = tbl[2], infernalMana = tbl[1]}
+	elseif race == Race.Dwarf then return
+		{runicMana = 1, groveMana = tbl[2], deathMana = tbl[1]}
+	elseif race == Race.Heretic then return
+		{infernalMana = 1, groveMana = tbl[2], runicMana = tbl[1]}
+	elseif race == Race.Undead then return
+		{deathMana = 1, runicMana = tbl[2], groveMana = tbl[1]}
+	elseif race == Race.Elf then return
+		{groveMana = 1, infernalMana = tbl[2], runicMana = tbl[1]}
+	end
 end
 
 ----------------
@@ -1917,6 +1869,10 @@ if math.random(0,3) ~= 1 then unitsm[i] = { id = 'g000uu8032', level = 2, unique
 if math.random(0,2) ~= 1 then unitsm[i] = { id = rnd('g000uu8029','g003uu8037'), level = 1, unique = true } else unitsm[i] = { id = MercB1(), level = 1, unique = true } end i = i + 1
 
 end
+
+-- рандомный нейтрал т3
+unitsm[i] = { id = rnd(MercM3(), MercM3(), MercA3(), MercMg3(), MercH3()), level = 1, unique = true } i = i + 1 -- мили / мили / лучник / маг / потдержка
+
 
 return unitsm
 end
@@ -2439,6 +2395,17 @@ end
 
 ---------------
 
+-- Специальный режим карты
+function smm(vanilla, judge, training)
+	if smode == 1 then
+		return vanilla
+	elseif smode == 2 then
+		return judge
+	elseif smode == 3 then
+		return training
+	end
+end
+
 -- Режим карты
 function gmm(outrun, classic)
 	if gmode == 1 then
@@ -2499,7 +2466,7 @@ function ExtraMana(race)
 	sdw = orr('g001ig0150','g001ig0147') -- Шар маны Лесного эликсира \ Шар маны Преисподней
 	sun = orr('g001ig0146','g001ig0148') -- Шар маны Жизни \ Шар маны Рун
 	shr = orr('g001ig0146','g001ig0148') -- Шар маны Жизни \ Шар маны Рун
-	self = orr('g001ig0146','g001ig0148') -- Шар маны Жизни \ Шар маны Рун
+	self = orr('g001ig0149','g001ig0148') -- Шар маны Смерти \ Шар маны Рун
 	
 	if race == Race.Human then return shmn
 	elseif race == Race.Dwarf then return sdw
@@ -3061,7 +3028,7 @@ return {  --200xp*2 -- сферы
 			loot = {
 				itemTypes = { Item.Orb },
 				value = { min = 390, max = 390 },
-				itemValue = { min = 100, max = 200 },
+				itemValue = { min = 100, max = 225 },
 				items = {
 					orr({ id = 'g000ig0005', min = 2, max = 2 }, { id = 'g000ig0006', min = 1, max = 1 }), --2хил50/хил100
 					{ id = b15(), min = 1, max = 1 }, -- случ. банка15				
@@ -3863,9 +3830,9 @@ return {
 	subraceTypes = { Subrace.NeutralDragon, Subrace.Human, Subrace.Heretic, Subrace.Dwarf, Subrace.Elf }, -- Subrace.Undead, убрал
 	value = { min = 1500*kef, max = 1560*kef }, --
 	loot = {
---		value = { min = 700, max = 700 },
---		itemValue = { min = 400, max = 500 },
---		itemTypes = { Item.PotionPermanent },
+		value = { min = 700, max = 700 },
+		itemValue = { min = 400, max = 500 },
+		itemTypes = { Item.PotionPermanent },
 		items = {
 			{ id = 'g000ig0001', min = 2, max = 2 },
 			{ id = 'g000ig0006', min = 2, max = 2 },
@@ -3885,9 +3852,9 @@ return {
 	subraceTypes = { Subrace.NeutralDragon, Subrace.Human, Subrace.Heretic, Subrace.Dwarf, Subrace.Elf }, -- Subrace.Undead, убрал
 	value = { min = 1700*kef, max = 1780*kef }, --
 	loot = {
---		value = { min = 1100, max = 1100 },
---		itemValue = { min = 600, max = 800 },
---		itemTypes = { Item.PotionPermanent },
+		value = { min = 1100, max = 1100 },
+		itemValue = { min = 600, max = 800 },
+		itemTypes = { Item.PotionPermanent },
 		items = {
 			{ id = 'g000ig0001', min = 2, max = 2 },
 			{ id = 'g000ig0006', min = 2, max = 2 },
@@ -4021,7 +3988,7 @@ function getPlayerZone0(zoneId, playerRace, zoneSize)
 		ruins = zoneRuinRespZ(),
 		bags = bagsResp0(),
 		mines = getMinesRespZ2(playerRace),
-		stacks = {Pred1RespZ0(), Pred1RespZ01(), Pred1RespZ02(), Pred1RespZ03(), Pred1RespZ04(), Pred1RespZD(), PredSkin(210, 220, 200, 225), PredBarb(220,230,100,200)},
+		stacks = {Pred1RespZ0(), Pred1RespZ01(), Pred1RespZ02(), Pred1RespZ03(), Pred1RespZ04(), Pred1RespZD(), PredSkin(210, 220, 200, 225), PredBarb(220,230,200,200)},
 
 	}
 end
@@ -4046,17 +4013,16 @@ function getPlayerZone(zoneId, playerRace, zoneSize)
 end
 
 -- Вернет таблицу с описанием зоны 3
-function getTreasureZone34(zoneId, playerRace, playerRace2, zoneSizeTre)
+function getTreasureZone34(zoneId, playerRace, zoneSizeTre)
 	return {
 		id = zoneId,
 		race = playerRace,
-		race2 = playerRace2,	
 		type = Zone.Junction,
 		size = zoneSizeTre,
 		towns = zoneTownsZone34(playerRace),
 		merchants = zoneMerchZone34(),
 		ruins = zoneRuinZone34(),
-		mines = getMinesZone34(playerRace, playerRace2),
+		mines = getMinesZone34(playerRace),
 		mages = zoneMageZone34(),
 		mercenaries = zoneMercenZone(playerRace),
 		stacks = {zoneStacksZone34(), Pred1Zone1(), Pred1Zone2(), Pred1Zone3(), Pred1Zone4(), Pred1ZoneD(), PredBarb(770,774,400,550) },
@@ -4072,7 +4038,7 @@ function getTreasureZone5(zoneId, playerRace, playerRace2, zoneSizeTre)
 		race2 = playerRace2,
 		
 	id = zoneId,
-		type = Zone.Treasure,  
+		type = Zone.Treasure,
 		size = zoneSizeTre,
 		towns = zoneTownsZone5(),
 		merchants = zoneMerchZone5(),
@@ -4082,26 +4048,45 @@ function getTreasureZone5(zoneId, playerRace, playerRace2, zoneSizeTre)
 		resourceMarkets = rMarketsZone5(),
 		stacks = {zoneStacksZone5(), zoneStacksZone501(), zoneStacksZone502(), zoneStacksZone503(), Pred1Zone51(), Pred1Zone52(), Pred1Zone53(), Pred1Zone54(), Pred1Zone5D(), PredBarb(1550,1600,500,600) },
 		bags = bagsZone5(),
-		--mages = zoneMageZone5(),
+		mages = zoneMageTrainer(),
 	}
 end
 
 -- Вернет таблицу с описанием зоны-тренера
-function getTreasureZoneTrainers(zoneId, playerRace, playerRace2, zoneSizeTre)
+function getTreasureZoneTrainers(zoneId, playerRace, zoneSizeTre)
 	return {
 --	border = Border.Water,
 	id = zoneId,
 		ruins = gmm(zoneRuinTrainers(),zoneRuinTrainersCross()),
 		race = playerRace,
-		race2 = playerRace2,
 		type = Zone.Junction,  -- Junction -- Treasure
 		size = zoneSizeTre,
-		mines = getMinesX(playerRace, playerRace2),
-		mages = zoneMageTrainer(),
---		mercenaries = zoneMercenZoneX(playerRace),
+		mines = getMinesX(playerRace),
+--		mages = zoneMageTrainer(),
+		mercenaries = zoneMercenZoneX(playerRace),
 --		bags = bagsRespX(), -- криво генерит с сундуком!
 		stacks = { PredSkinX(13/kef, 25/kef, 0, 0), PredSkinX(26/kef, 32/kef, 50, 50), PredSkinX(40/kef, 55/kef, 100, 100), PredSkinX(60/kef, 70/kef, 150, 150) },
 		trainers = {{ guard = gmm({}, PredSkin(80, 87, 100, 100)) }},
+	}
+end
+
+--
+function getEmptyZone(zoneId, playerRace, zoneSizeTre)
+	return {
+		id = zoneId,
+		race = playerRace,
+		type = Zone.Junction,
+		size = zoneSizeTre,
+	}
+end
+
+--
+function getHostZone(zoneId, playerRace, zoneSizeTre)
+	return {
+		id = zoneId,
+		race = playerRace,
+		type = Zone.PlayerStart,
+		size = zoneSizeTre,
 	}
 end
 
@@ -4112,12 +4097,13 @@ end
 function getZones(races)
 	local zones = {}
 
-	local z910 = 40 -- тренер 50
-	local z08 = 50 -- т0 стольня 50
-	local z17 = 60 -- т1 60
-	local z26 = 90 -- т2 90
-	local z35 = 80-- т3 82
-	local z4 = gmm(120,110) -- центр 120 /G/ 110
+	local z910 = 4 -- тренер 50
+	local z08 = 5 -- т0 стольня 50
+	local z17 = 6 -- т1 60
+	local z26 = 9 -- т2 90
+	local z35 = 8 -- т3 82
+	local z4 = gmm(12,11) -- центр 120 /G/ 110
+	local zh = 2.4
 	
 	-- ИГРОК1
 	gtal1() gtal2() gtal3() gtal4() gtal5()  -- [сброс т.таликов для игрока]
@@ -4125,34 +4111,16 @@ function getZones(races)
 
 	zones[1] = getPlayerZone00(0, races[1], z08) -- красный 5
 
-	-- перемешать для 1 расы таблицу для ист-ков зоны тренера
+	-- перемешать для 1 расы таблицу для ист-ков
 		for i = #tbl, 2, -1 do
 		local j = math.random(i)
 		tbl[i], tbl[j] = tbl[j], tbl[i]
 		end
 
-	zones[11] = getTreasureZoneTrainers(10, races[1], races[2], z910) -- т.зелёный
-
-	-- перемешать для 1 расы таблицу _a _b для ист-ков т1 и т2
-		for i = #tbla, 2, -1 do
-		local j = math.random(i)
-		tbla[i], tbla[j] = tbla[j], tbla[i]
-		end
-
-		for i = #tblb, 2, -1 do
-		local j = math.random(i)
-		tblb[i], tblb[j] = tblb[j], tblb[i]
-		end	
-
+	zones[11] = getTreasureZoneTrainers(10, races[1], z910) -- т.зелёный
 	zones[2] = getPlayerZone0(1, races[1], z17) -- зелёный 6(7)
 	zones[3] = getPlayerZone(2, races[1], z26) -- синий 9(10)
-
-	-- инвертировать для 1 расы таблицу для ист-ков зоны т3 (осаток ист-ков от тренера)
-		for i = 1,#tbl do
-		tbl[i] = math.abs(tbl[i]-1) 
-		end
-
-	zones[4] = getTreasureZone34(3, races[1], races[2], z35) -- белый 8(9)
+	zones[4] = getTreasureZone34(3, races[1], z35) -- белый 8(9)
 
 	-- ИГРОК2
 	gtal1() gtal2() gtal3() gtal4() gtal5()  -- [сброс т.таликов для игрока]
@@ -4160,42 +4128,27 @@ function getZones(races)
 
 	zones[9] = getPlayerZone00(8, races[2], z08) -- пурпурный
 
-	-- инвертировать назад для зоны тренера
-		for i = 1,#tbl do
-		tbl[i] = math.abs(tbl[i]-1)
-		end
-
-	-- перемешать для 2 расы таблицу зоны тренера
+	-- перемешать для 2 расы таблицу для ист-ков
 		for i = #tbl, 2, -1 do
 		local j = math.random(i)
 		tbl[i], tbl[j] = tbl[j], tbl[i]
 		end
 
-	zones[10] = getTreasureZoneTrainers(9, races[2], races[1], z910) -- оранжевый
-
-	-- перемешать для 2 расы таблицы _a _b для ист-ков т1 и т2
-		for i = #tbla, 2, -1 do
-		local j = math.random(i)
-		tbla[i], tbla[j] = tbla[j], tbla[i]
-		end
-
-		for i = #tblb, 2, -1 do
-		local j = math.random(i)
-		tblb[i], tblb[j] = tblb[j], tblb[i]
-		end		
-
+	zones[10] = getTreasureZoneTrainers(9, races[2], z910) -- оранжевый
 	zones[8] = getPlayerZone0(7, races[2], z17) -- голубой
 	zones[7] = getPlayerZone(6, races[2], z26) -- жёлтый
-
-	-- инвертировать для 2 расы таблицу для ист-ков зоны т3 (осаток ист-ков от тренера)
-		for i = 1,#tbl do
-		tbl[i] = math.abs(tbl[i]-1) 
-		end
-
-	zones[6] = getTreasureZone34(5, races[2], races[1], z35) -- серый
+	zones[6] = getTreasureZone34(5, races[2], z35) -- серый
 
 	-- ЦЕНТР
 	zones[5] = getTreasureZone5(4, races[1], races[2], z4) -- чёрный 12(13)
+
+	if smode == 2 then
+		zones[12] = getHostZone(13, races[3], zh)
+		zones[13] = getEmptyZone(14, races[3], zh)
+	elseif smode == 3 then
+		zones[12] = getEmptyZone(13, races[3], zh)
+		zones[13] = getEmptyZone(14, races[3], zh)
+	end
 
 	return zones
 end
@@ -4204,21 +4157,21 @@ end
 
 -- ПРОХОДЫ: Вернет таблицу с проходами между зонами:
 function getZoneConnections(races)
-	return {
+local connections = {
 
-	{from = 2, to = 4, guard = zoneGuardZone0()}, 
-	{from = 3, to = 4, guard = zoneGuardZone()}, 	
-	
-	{from = 4, to = 6, guard = zoneGuardZone0()}, 
-	{from = 4, to = 5, guard = zoneGuardZone()}, 
+	{from = 2, to = 4, guard = zoneGuardZone0()},
+	{from = 3, to = 4, guard = zoneGuardZone()},
 
-	--{from = 0, to = 1}, {from = 0, to = 1}, {from = 0, to = 1}, {from = 0, to = 1}, {from = 0, to = 1}, 
+	{from = 4, to = 6, guard = zoneGuardZone0()},
+	{from = 4, to = 5, guard = zoneGuardZone()},
+
+	--{from = 0, to = 1}, {from = 0, to = 1}, {from = 0, to = 1}, {from = 0, to = 1}, {from = 0, to = 1},
 	{from = 1, to = 0}, {from = 1, to = 0}, {from = 1, to = 0, guard = gmm('',zoneStacksP01())}, {from = 1, to = 0}, {from = 1, to = 0},
 	{from = 1, to = 2}, {from = 1, to = 2}, {from = 1, to = 2}, {from = 1, to = 2, guard = gmm('',zoneStacksP12(races[1]))}, {from = 1, to = 2}, {from = 1, to = 2}, {from = 1, to = 2},
-	{from = 2, to = 3}, {from = 2, to = 3}, {from = 2, to = 3}, {from = 2, to = 3}, {from = 2, to = 3, guard = gmm('',zoneStacksP23(races[1]))}, {from = 2, to = 3}, {from = 2, to = 3}, {from = 2, to = 3}, {from = 2, to = 3},   
-	{from = 5, to = 6}, {from = 5, to = 6}, {from = 5, to = 6}, {from = 5, to = 6}, {from = 5, to = 6, guard = gmm('',zoneStacksP23(races[2]))}, {from = 5, to = 6}, {from = 5, to = 6}, {from = 5, to = 6}, {from = 5, to = 6},   
-	{from = 6, to = 7}, {from = 6, to = 7}, {from = 6, to = 7}, {from = 6, to = 7, guard = gmm('',zoneStacksP12(races[2]))}, {from = 6, to = 7}, {from = 6, to = 7}, {from = 6, to = 7},  
-	{from = 7, to = 8}, {from = 7, to = 8}, {from = 7, to = 8, guard = gmm('',zoneStacksP01())}, {from = 7, to = 8}, {from = 7, to = 8}, 
+	{from = 2, to = 3}, {from = 2, to = 3}, {from = 2, to = 3}, {from = 2, to = 3}, {from = 2, to = 3, guard = gmm('',zoneStacksP23(races[1]))}, {from = 2, to = 3}, {from = 2, to = 3}, {from = 2, to = 3}, {from = 2, to = 3},
+	{from = 5, to = 6}, {from = 5, to = 6}, {from = 5, to = 6}, {from = 5, to = 6}, {from = 5, to = 6, guard = gmm('',zoneStacksP23(races[2]))}, {from = 5, to = 6}, {from = 5, to = 6}, {from = 5, to = 6}, {from = 5, to = 6},
+	{from = 6, to = 7}, {from = 6, to = 7}, {from = 6, to = 7}, {from = 6, to = 7, guard = gmm('',zoneStacksP12(races[2]))}, {from = 6, to = 7}, {from = 6, to = 7}, {from = 6, to = 7},
+	{from = 7, to = 8}, {from = 7, to = 8}, {from = 7, to = 8, guard = gmm('',zoneStacksP01())}, {from = 7, to = 8}, {from = 7, to = 8},
 
 	-- тренер т3_соперника
 	{from = 3, to = 9, guard = zoneGuardZoneR()},
@@ -4226,7 +4179,7 @@ function getZoneConnections(races)
 
 	-- респ тренер
 	{from = 0, to = 10},{from = 0, to = 10},{from = 0, to = 10},
-	{from = 9, to = 8},{from = 9, to = 8},{from = 9, to = 8},	
+	{from = 9, to = 8},{from = 9, to = 8},{from = 9, to = 8},
 
 	-- тренер в центр
 	{from = 9, to = 4},
@@ -4236,6 +4189,23 @@ function getZoneConnections(races)
 	--{from = 0, to = 4},
 	--{from = 8, to = 4},
 }
+	if smode == 2 or smode == 3 then
+		local zones = {
+			{1, 7},
+			{2, 6},
+			{3, 5},
+		}
+		local p = math.random(1,3)
+		table.insert(connections, {from = 13, to = zones[p][1], size = 0})
+		table.insert(connections, {from = 14, to = zones[p][2], size = 0})
+
+		table.insert(connections, {from = 0, to = 4, size = 0})
+		table.insert(connections, {from = 8, to = 4, size = 0})
+		table.insert(connections, {from = 1, to = 4, size = 0})
+		table.insert(connections, {from = 7, to = 4, size = 0})
+
+	end
+	return connections
 end
 
 -- Вернет описание содержимого сценария для генератора - ОК
@@ -4250,15 +4220,20 @@ end
 
 -- ШАБЛОН
 template = {
-	name = gmm('Outrunner 2.9n', 'Outcross 2.9n'),
+	name = smm(
+			gmm('Outrunner '..ver, 'Outcross '..ver),
+			gmm('Outrunner-judge-barton '..ver, 'Outcross-judge-barton '..ver),
+			gmm('Outrunner-training '..ver, 'Outcross-training '..ver)
+	),
 	description = gmm('Шаблон для игры 1 лидер, 1 жезловик, 1 вор.\nЧерная зона в центре, ее должны касаться: синяя, желтая, белая, серая, т.зеленая, оранжевая.\nСпасибо за поддержку! Карта Тинькофф: 2200700846776804','Шаблон для классической игры несколькими лидерами.\nЧерная зона в центре, ее должны касаться: синяя, желтая, белая, серая, т.зеленая, оранжевая.\nСпасибо за поддержку! Карта Тинькофф: 2200700846776804'),
 	minSize = 72,
 	maxSize = 72,
-	maxPlayers = 2,
+	maxPlayers = smm(2, 3, 2),
 	startingGold = gmm(700,1100),
 	startingNativeMana = gmm(200,400),
 	roads = gmm(35,30), --45,41
 	forest = gmm(30,30), --42,40
+	iterations = 10000, --5000
 
 
 -- Исключения юнитов
