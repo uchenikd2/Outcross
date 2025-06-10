@@ -21,7 +21,7 @@ local gmode = 2
 local smode = 3
 
 -- коэффициент сложности (0.6-0.8 легко; 0.8-1 средне; >1 сложно) [страндарт = 0.92] parameters[1]
-local kef = 100
+local kef = 0.92
 
 -- коэффициент разброса силы нейтралов по умолчанию [страндарт = 1.05]
 local kr = 1.05
@@ -840,9 +840,9 @@ function zoneTownsResp0()
 		subraceTypes = rsub(),
 			value = { min = gmm(250,300)*kef, max = gmm(263,315)*kef },
 			loot = {
-				itemTypes = { Item.Weapon, Item.Armor, Item.TravelItem }, -- 3+2+7
-				value = { min = 300, max = 375 },
-				itemValue = { min = 300, max = 375 },
+--				itemTypes = { Item.Weapon, Item.Armor, Item.TravelItem }, -- 3+2+7
+--				value = { min = 300, max = 375 },
+--				itemValue = { min = 300, max = 375 },
 				items = {
 					{ id = 'g000ig0001', min = 1, max = 1 }, --рес
 					{ id = 'g000ig0006', min = gmm(1,2), max = gmm(1,2) }, -- хил100
@@ -853,6 +853,11 @@ function zoneTownsResp0()
 
 					-- банка на талики / реген / точность
 					{ id = rndy(tp0p), min = 1, max = 1 },
+
+					-- 300-375 Item.Weapon, Item.Armor, Item.TravelItem -- 3+2+7		
+					-- Амулет Кракена (Артефакт) / Рунный камень (Артефакт) / Цепи жертвенности (Артефакт) / Гномьи наручи (Артефакт) / Цеп Хана (Артефакт)			
+					-- Гномьи сапоги / Легкие сапоги / Литейные сапоги / Сапоги ветров / Сапоги жизни / Сапоги каменщика / Укрепленные сапоги 				
+					{ id = rnd('g001ig0048','g000ig2001','g001ig0611','g000ig3001','g001ig0100','g001ig0108','g001ig0110','g001ig0105','g001ig0107','g001ig0109','g001ig0106','g001ig0113'), min = 1, max = 1 },
 				}
 			}
 		}
@@ -908,9 +913,9 @@ function zoneTownsZone34(playerRace)
 			subraceTypes = NoUndead(),
 			value = { min = gmm(780,850)*kef, max = gmm(820,890)*kef },
 			loot = {
-				itemTypes = { Item.Jewel, Item.Weapon, Item.Armor, Item.TravelItem }, --5+6+6+1
-				value = { min = 701, max = 800 },
-				itemValue = { min = 701, max = 800 },
+--				itemTypes = { Item.Jewel, Item.Weapon, Item.Armor, Item.TravelItem }, --5+6+6+1
+--				value = { min = 710, max = 840 },
+--				itemValue = { min = 710, max = 840 },
 				items = {
 					{ id = 'g000ig0001', min = gmm(1,2), max = gmm(1,2) },
 					{ id = 'g000ig0006', min = gmm(2,3), max = gmm(2,3) },
@@ -920,6 +925,14 @@ function zoneTownsZone34(playerRace)
 					{ id = rnd('g000ig0014',rnd('g002ig0007','g001ig0125'),'g000ig0008','g000ig0011',rnd('g002ig0005','g001ig0036'),e2()), min = 1, max = 1 }, --защита15 / Зелье маг.уст.|вард разума / точность15 / ини15 / Зелье набл.-15воры|вард смерти / эликсир200
 
 					{ id = rnd(pw4d(),ExtraHomeMana(playerRace)), min = 1, max = 1 }, -- пермо-вард-дот / шар родной манны
+					
+					-- 710-800 Item.Jewel, Item.Weapon, Item.Armor, Item.TravelItem
+					-- Кровь святого (Артефакт) / Наручи с черепом (Артефакт) / Руна Жизни (Артефакт) / Руна предвидения Вотана (Артефакт) / Кольцо силы (Артефакт) / Кольцо темных искуств (Артефакт)
+					-- Пояс травницы (Артефакт)	/ Пояс травницы (Артефакт) / Руна верности Моккуркальфи (Артефакт) / Рунный молот (Артефакт) / Сердце Имира (Артефакт)
+					-- Вечные латы (Реликвия) / Доспех жатвы (Реликвия) / Зуб людоеда (Реликвия) / Тиара чистоты (Реликвия) / Шлем проклятого (Реликвия) / Крылья ангела 
+					{id = rnd('g001ig0045','g000ig2003','g001ig0047','g001ig0416','g001ig0589','g000ig3003','g001ig0487','g001ig0173','g001ig0417','g001ig0196','g000ig9137','g001ig0420','g001ig0602','g001ig0104','g000ig2006','g001ig0037','g001ig0112'), min = 1, max = 1},
+					
+					
 				}
 
 			}
@@ -3961,9 +3974,9 @@ return {
 	-- сопротивляемость ворам -10
 	leaderModifiers = {'g201um9131'},
 	loot = {
+		itemTypes = { Item.PotionPermanent },
 		value = { min = 700, max = 700 },
 		itemValue = { min = 400, max = 500 },
-		itemTypes = { Item.PotionPermanent },
 		items = {
 			{ id = 'g000ig0001', min = 2, max = 2 },
 			{ id = 'g000ig0006', min = 2, max = 2 },
@@ -3985,9 +3998,9 @@ return {
 	-- сопротивляемость ворам -10
 	leaderModifiers = {'g201um9131'},
 	loot = {
+		itemTypes = { Item.PotionPermanent },
 		value = { min = 1100, max = 1100 },
 		itemValue = { min = 600, max = 800 },
-		itemTypes = { Item.PotionPermanent },
 		items = {
 			{ id = 'g000ig0001', min = 2, max = 2 },
 			{ id = 'g000ig0006', min = 2, max = 2 },
