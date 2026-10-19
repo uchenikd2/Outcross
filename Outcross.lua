@@ -2425,7 +2425,7 @@ return {  -- 155 свиток
 	value = { min = 155*kef, max = 155*kef*kr },
 	loot = {
 		items = {
-			{ id = 'g001ig0180', min = 1, max = 1 }, --хил25
+			{ id = 'g000ig0005', min = 1, max = 1 }, --хил50
 			{ id = rnd(d15(),'g000ig0008'), min = 1, max = 1}, -- случ. дотвард/меткость
 			{ id = rndy(tscr1ok), min = 1, max = 1 }, -- свиток т1
 		}
@@ -2455,7 +2455,7 @@ return { -- 165 хил
 	value = { min = 165*kef, max = 165*kef*kr },
 	loot = {
 		items = {
-			{ id = 'g000ig0005', min = 1, max = 1 }, --хил50
+			rnd({ id = 'g000ig0005', min = 2, max = 2 },{ id = 'g000ig0006', min = 1, max = 1 }), -- хил50x2 / хил100
 			{ id = 'g001ig0180', min = 1, max = 1 }, --хил25
 			{ id = rnd(b15(),b15(),e2()), min = 1, max = 1}, -- банка15/банка15/e2
 		}
@@ -2470,7 +2470,7 @@ return { -- 170 драги
 	value = { min = 170*kef, max = 170*kef*kr },
 	loot = {
 		items = {
-			{ id = 'g000ig0005', min = 1, max = 1 }, --хил50
+			{ id = 'g001ig0378', min = 1, max = 1 }, --хил75
 			{ id = rnd(w15(),w15(),e2()), min = 1, max = 1}, -- вард/вард/e2
 			{ id = rnd(ExtraSmallManaProject4(race),rmss(),'g001ig0431','g001ig0431'), min = 1, max = 1 }, --доп.мал.шар/сл.мал.шар/гранат75/гранат75
 		}
@@ -2520,7 +2520,7 @@ return {  --210xp драги
 	value = { min = 210*kef, max = 210*kef*kr },
 	loot = {
 		items = {
-			{ id = 'g000ig0005', min = 1, max = 1 }, --хил50
+			{ id = 'g001ig0378', min = 1, max = 1 }, --хил75
 			{ id = d15(), min = 1, max = 1},
 			{ id = rnd(ExtraSmallHomeMana(race),rmss(),'g001ig0431','g001ig0431'), min = 1, max = 1 }, --родной.мал.шар/мал.шар/гранат75/гранат75
 		}
@@ -2536,7 +2536,7 @@ return {  --220xp сфера
 	value = { min = 220*kef, max = 220*kef*kr },
 	loot = {
 		items = {
-			{ id = 'g000ig0005', min = 1, max = 1 }, --хил50
+			{ id = 'g001ig0378', min = 1, max = 1 }, --хил75
 			{ id = rnd(b15(),'g000ig0008'), min = 1, max = 1}, -- банка15/меткость
 			{ id = orb2[amd][5], min = 1, max = 1 }, -- сфера т2
 		}
@@ -2568,7 +2568,7 @@ return { --240xp свиток
 	value = { min = 240*kef, max = 240*kef*kr }, 
 	loot = {
 		items = {
-			{ id = 'g001ig0378', min = 1, max = 1}, -- хил75
+			{ id = 'g000ig0006', min = 1, max = 1}, -- хил100
 			{ id = rnd(d15(),'g000ig0008'), min = 1, max = 1}, -- дотвард/меткость
 			{ id = rndy(tscr2ok), min = 1, max = 1 }, -- свиток т2
 		}
@@ -2583,7 +2583,7 @@ return { --250xp свиток
 	value = { min = 250*kef, max = 250*kef*kr }, 
 	loot = {
 		items = {
-			{ id = 'g001ig0378', min = 1, max = 1}, -- хил75
+			{ id = 'g000ig0006', min = 1, max = 1}, -- хил100
 			{ id = rnd(b15(),e2()), min = 1, max = 1}, -- банка15/e2
 			{ id = rndy(tscr2ok), min = 1, max = 1 }, -- свиток т2
 		}
@@ -2599,7 +2599,7 @@ return { --260xp хил
 	loot = {
 		items = {
 			{ id = rnd('g000ig0001','g000ig0006'), min = 1, max = 1 }, --рес/хил100
-			{ id = 'g000ig0005', min = 1, max = 1 }, --хил50
+			{ id = 'g001ig0378', min = 1, max = 1 }, --хил75
 			{ id = rnd(w15(),e2()), min = 1, max = 1}, -- вард/e2
 		}
 	}
@@ -2614,6 +2614,7 @@ return { --270xp драги
 	loot = {
 		items = {
 			{ id = 'g000ig0006', min = 1, max = 1 }, --хил100
+			{ id = 'g001ig0180', min = 1, max = 1 }, --хил25			
 			{ id = rnd(d15(),b15(),w15()), min = 1, max = 1}, -- двард/банка15/вард
 			{ id = rnd(rms(),'g000ig7002'), min = 1, max = 1 }, -- шар манны / сер.кольцо100
 		}
@@ -2630,6 +2631,7 @@ return { --280 хил
 		items = {
 			{ id = 'g000ig0001', min = 1, max = 1 }, --рес
 			{ id = 'g001ig0378', min = 1, max = 1}, -- хил75
+			{ id = 'g000ig0008', min = 1, max = 1}, -- меткость
 			{ id = e2(), min = 1, max = 1 },
 		}
 	}
@@ -2682,6 +2684,7 @@ return { -- 360 драги
 	loot = {
 		items = {
 			{ id = 'g000ig0006', min = 1, max = 1 }, --хил100
+			{ id = 'g001ig0180', min = 1, max = 1 }, --хил25
 			{ id = d15(), min = 1, max = 1},
 			{ id = rnd(rms(),'g000ig7002'), min = 1, max = 1 }, -- шар/кольцо100
 		}
@@ -2698,6 +2701,7 @@ return { -- 380 сфера
 	loot = {
 		items = {
 			{ id = 'g000ig0006', min = 1, max = 1 }, --хил100
+			{ id = 'g001ig0180', min = 1, max = 1 }, --хил25
 			{ id = b15(), min = 1, max = 1}, -- случ. банка15			
 			{ id = orb3[amd][5], min = 1, max = 1 }, -- сфера т3
 		}
@@ -2731,7 +2735,7 @@ return { -- 420 свиток
 	loot = {
 		items = {
 			{ id = 'g000ig0006', min = 1, max = 1 }, --хил100
-			{ id = rnd('g001ig0180','g000ig0008'), min = 1, max = 1 }, --хил25/меткость
+			{ id = rnd('g000ig0005','g000ig0008'), min = 1, max = 1 }, --хил50/меткость
 			{ id = rnd(b15(),w15(),e2()), min = 1, max = 1}, -- банка15/вард/e2
 			{ id = rndy(tscr3ok), min = 1, max = 1 }, -- свиток т3
 		}
@@ -3250,9 +3254,9 @@ function getPlayerZone0(zoneId, playerRace, zoneSize)
 				loot = {
 					items = {
 						-- банки
-						{ id = 'g000ig0001', min = 4, max = 4}, --рес
-						{ id = 'g000ig0006', min = 4, max = 3}, --хил100
-						{ id = 'g001ig0378', min = 5, max = 4}, --хил75
+						{ id = 'g000ig0001', min = 5, max = 5}, --рес
+						{ id = 'g000ig0006', min = 4, max = 4}, --хил100
+						{ id = 'g001ig0378', min = 5, max = 5}, --хил75
 						{ id = 'g000ig0005', min = 5, max = 5}, -- хил50
 						{ id = 'g001ig0180', min = 6, max = 6}, -- хил25
 
@@ -3632,6 +3636,7 @@ function getEvents(races)
 			targetRaces = {race},
 			conditions = {
 				{ type = Condition.PlayerType, ai = true },
+				{ type = Condition.Frequency, frequency = 1 }
 			},
 			effects = {
 				{ type = Effect.ModifyVariable, varName=getPlGoldIncome(race), operation=ModifyVariable.Add, value = -100 },
@@ -3872,7 +3877,7 @@ end
 
 -- ШАБЛОН
 template = {
-	name = 'Outcross 1.0',
+	name = 'Outcross 1.1',
 	description = '«Герой/Жезл/Вор» - макс. кол-во лидеров. «Режим» - расы обозначаются буквами ABCD. «Усилить расы» - выберете расы для усиления. «Усиление» - степень усиления рас. «Сила нейтралов» - сила нейтральных отрядов.\nDiscord-сервер с шаблонами и картами: discord.gg/zBJZpwfbdW\nАвтор шаблона: Uchenik. Поддержать на карту Т-Банк: 2200700846776804\nХорошей игры!',
 	minSize = 72,
 	maxSize = 72,
@@ -3893,13 +3898,13 @@ template = {
 		{
 			name = 'Режим', -- parameters[2]
 			values = {
-				'AvsC (PvP)',
-				'AvsBvsC',
-				'AvsBvsCvsD',
-				'AvsBC',
-				'AvsBCD',
-				'ACvsBD',
-				'ABvsCD',
+				'AvsC (PvP)',	--1
+				'AvsBvsC',		--2
+				'AvsBvsCvsD',	--3
+				'AvsBC',		--4
+				'AvsBCD',		--5
+				'ACvsBD',		--6
+				'ABvsCD',		--7
 			},
 			default = gmode
 		},
